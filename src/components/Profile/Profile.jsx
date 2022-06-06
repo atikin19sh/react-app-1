@@ -1,13 +1,13 @@
 import React from "react";
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPosts from './MyPosts/MyPosts';
-import s from './Profile.module.css';
+// import s from './Profile.module.css';
 
-const Profile = () => {
+const Profile = (props) => {
   return (
     <div>
-      <img src="https://sppumoodle.unipune.ac.in/pluginfile.php/74872/course/overviewfiles/Front%20Page%202.jpg" alt="" />
-      <div>ava + description</div>
-      <MyPosts />
+      <ProfileInfo />
+      <MyPosts posts={props.posts} />
     </div>
   );
 }
