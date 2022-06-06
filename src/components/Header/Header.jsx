@@ -4,7 +4,7 @@ import s from './Header.module.css';
 const Header = () => {
   return (
     <header className={s.header}>
-      <img src="https://remont-kvartir-pod-klyuch.ru/wp-content/uploads/listing-uploads/logo/2019/12/42549.jpg" alt="" />
+      <img src="https://i.ibb.co/CVL1Ty6/logo.png" alt="logo" />
     </header>
   );
 }
