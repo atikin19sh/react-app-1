@@ -11,6 +11,33 @@
   color: gold;
 }
 
+.dialog img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+}
+
 .messages {
+  margin: 150px;
   padding: 10px;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+}
+
+.message div {
+  padding: 5px;
+  font-size: 120%;
+}
+
+.message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+}
+
+.you {
+  flex-direction: row-reverse;
 }
