@@ -10,7 +10,17 @@ const MyPosts = (props) => {
 
   let createNewPost = () => {
     let text = newPostElement.current.value;
+    if (text === '') {
+      alert('Поле не должно быть пустым');
+      return;
+    };
     props.addPost(text);
+    props.updateNewPostText('');
+  };
+
+  let onPostChange = () => {
+    let text = newPostElement.current.value;
+    props.updateNewPostText(text);
   };
 
   return (
@@ -19,7 +29,7 @@ const MyPosts = (props) => {
         <h3>My posts</h3>
       </div>
       <div>
-        <textarea ref={newPostElement}></textarea>
+        <textarea ref={newPostElement} value={props.newPostText} onChange={onPostChange} />
       </div>
       <button onClick={createNewPost}>Add post</button>
       {postsElements}
