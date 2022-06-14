@@ -42,24 +42,25 @@ let store = {
     this._callSubscriber = observer;
   },
 
-  addPost() {
-    let newPost = {
-      id: 3,
-      text: this._state.profilePage.newPostText,
-      likesCount: 0
-    };
-    if (newPost.text === '') {
-      alert('Поле не должно быть пустым');
-      return;
-    } else {
-      this._state.profilePage.posts.push(newPost);
+  dispatch(action) {
+    if (action.type === 'ADD-POST') {
+      let newPost = {
+        id: 3,
+        text: this._state.profilePage.newPostText,
+        likesCount: 0
+      };
+      if (newPost.text === '') {
+        alert('Поле не должно быть пустым');
+        return;
+      } else {
+        this._state.profilePage.posts.push(newPost);
+        this._callSubscriber(this._state);
+        this._state.profilePage.newPostText = '';
+      };
+    } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+      this._state.profilePage.newPostText = action.newText;
       this._callSubscriber(this._state);
-      this._state.profilePage.newPostText = '';
     };
-  },
-  updateNewPostText(newText) {
-    this._state.profilePage.newPostText = newText;
-    this._callSubscriber(this._state);
   },
 };
 
