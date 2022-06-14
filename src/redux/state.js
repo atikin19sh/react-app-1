@@ -1,3 +1,8 @@
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const SEND_MESSAGE = 'SEND-MESSAGE';
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+
 let store = {
   _state: {
     profilePage: {
@@ -5,7 +10,7 @@ let store = {
         { id: 2, text: 'Hi! How are you?', likesCount: 15 },
         { id: 1, text: 'It\'s my first post!', likesCount: 20 },
       ],
-      newPostText: '',
+      newPostText: 'All right!',
     },
     dialogsPage: {
       dialogs: [
@@ -22,6 +27,7 @@ let store = {
         { id: 4, userRole: 'you', text: 'I am learning React JS now!', userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg" },
         { id: 5, userRole: 'talker', text: 'Wow! Good luck!', userAva: 'https://miro.medium.com/fit/c/1360/1360/2*S4BvCsc_o_KwFCx-gmVTlg.png' },
       ],
+      newMessageText: 'Thanks!',
     },
     sidebar: {
       friends: [
@@ -43,7 +49,7 @@ let store = {
   },
 
   dispatch(action) {
-    if (action.type === 'ADD-POST') {
+    if (action.type === ADD_POST) {
       let newPost = {
         id: 3,
         text: this._state.profilePage.newPostText,
@@ -57,11 +63,47 @@ let store = {
         this._callSubscriber(this._state);
         this._state.profilePage.newPostText = '';
       };
-    } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+    } else if (action.type === UPDATE_NEW_POST_TEXT) {
       this._state.profilePage.newPostText = action.newText;
+      this._callSubscriber(this._state);
+    } else if (action.type === SEND_MESSAGE) {
+      let newMessage = {
+        id: 6,
+        text: this._state.dialogsPage.newMessageText,
+        userRole: 'you',
+        userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg",
+      };
+      if (newMessage.text === '') {
+        alert('Поле не должно быть пустым');
+        return;
+      } else {
+        this._state.dialogsPage.messages.push(newMessage);
+        this._callSubscriber(this._state);
+        this._state.dialogsPage.newMessageText = '';
+      };
+    } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+      this._state.dialogsPage.newMessageText = action.newText;
       this._callSubscriber(this._state);
     };
   },
 };
 
+export const addPostActionCreator = () => {
+  return { type: ADD_POST };
+};
+
+export const updateNewPostTextActionCreator = (text) => {
+  return { type: UPDATE_NEW_POST_TEXT, newText: text };
+};
+
+export const sendMessageActionCreator = () => {
+  return { type: SEND_MESSAGE };
+};
+
+export const updateNewMessageTextActionCreator = (text) => {
+  return { type: UPDATE_NEW_MESSAGE_TEXT, newText: text };
+};
+
 export default store;
+
+window.store = store;

@@ -13,8 +13,6 @@ export let rerenderEntireTree = (state) => {
   );
 };
 
-window.state = store.getState();
-
 rerenderEntireTree(store.getState());
 
 store.subscribe(rerenderEntireTree);
