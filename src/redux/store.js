@@ -1,7 +1,6 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const SEND_MESSAGE = 'SEND-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
 let store = {
   _state: {
@@ -49,59 +48,14 @@ let store = {
   },
 
   dispatch(action) {
-    if (action.type === ADD_POST) {
-      let newPost = {
-        id: 3,
-        text: this._state.profilePage.newPostText,
-        likesCount: 0
-      };
-      if (newPost.text === '') {
-        alert('Поле не должно быть пустым');
-        return;
-      } else {
-        this._state.profilePage.posts.push(newPost);
-        this._callSubscriber(this._state);
-        this._state.profilePage.newPostText = '';
-      };
-    } else if (action.type === UPDATE_NEW_POST_TEXT) {
-      this._state.profilePage.newPostText = action.newText;
-      this._callSubscriber(this._state);
-    } else if (action.type === SEND_MESSAGE) {
-      let newMessage = {
-        id: 6,
-        text: this._state.dialogsPage.newMessageText,
-        userRole: 'you',
-        userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg",
-      };
-      if (newMessage.text === '') {
-        alert('Поле не должно быть пустым');
-        return;
-      } else {
-        this._state.dialogsPage.messages.push(newMessage);
-        this._callSubscriber(this._state);
-        this._state.dialogsPage.newMessageText = '';
-      };
-    } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
-      this._state.dialogsPage.newMessageText = action.newText;
-      this._callSubscriber(this._state);
-    };
+
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+    this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+
+    this._callSubscriber(this._state);
+
   },
-};
-
-export const addPostActionCreator = () => {
-  return { type: ADD_POST };
-};
-
-export const updateNewPostTextActionCreator = (text) => {
-  return { type: UPDATE_NEW_POST_TEXT, newText: text };
-};
-
-export const sendMessageActionCreator = () => {
-  return { type: SEND_MESSAGE };
-};
-
-export const updateNewMessageTextActionCreator = (text) => {
-  return { type: UPDATE_NEW_MESSAGE_TEXT, newText: text };
 };
 
 export default store;
