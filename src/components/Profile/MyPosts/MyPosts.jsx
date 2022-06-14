@@ -9,13 +9,7 @@ const MyPosts = (props) => {
   let newPostElement = React.createRef();
 
   let createNewPost = () => {
-    let text = newPostElement.current.value;
-    if (text === '') {
-      alert('Поле не должно быть пустым');
-      return;
-    };
-    props.addPost(text);
-    props.updateNewPostText('');
+    props.addPost();
   };
 
   let onPostChange = () => {
