@@ -4,12 +4,13 @@ import MyPosts from './MyPosts/MyPosts';
 // import s from './Profile.module.css';
 
 const Profile = (props) => {
+  let state = props.store.getState().profilePage;
   return (
     <div>
       <ProfileInfo />
-      <MyPosts posts={props.state.posts}
-        newPostText={props.state.newPostText}
-        dispatch={props.dispatch} />
+      <MyPosts posts={state.posts}
+        newPostText={state.newPostText}
+        dispatch={props.store.dispatch} />
     </div>
   );
 }
