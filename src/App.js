@@ -9,12 +9,12 @@ import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 
-const App = (props) => {
+const App = () => {
   return (
     <BrowserRouter>
       <div className='app-wrapper'>
         <Header />
-        <Navbar state={props.state.sidebar} />
+        <Navbar />
         <div className='app-wrapper-content'>
           <Routes>
             <Route path='/dialogs/*' element={<DialogsContainer />} />
