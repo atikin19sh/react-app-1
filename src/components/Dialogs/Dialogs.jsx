@@ -6,10 +6,10 @@ import s from './Dialogs.module.css';
 const Dialogs = (props) => {
 
   let dialogsElements = props.dialogsPage.dialogs.map(
-    d => (<Dialog userName={d.name} userId={d.id} userAva={d.ava} />)
+    d => (<Dialog userName={d.name} userId={d.id} userAva={d.ava} key={d.id} />)
   );
   let messagesElements = props.dialogsPage.messages.map(
-    m => (<Message text={m.text} userAva={m.userAva} userRole={m.userRole} />)
+    m => (<Message text={m.text} userAva={m.userAva} userRole={m.userRole} key={m.id} />)
   );
 
   let newMessageElement = React.createRef();

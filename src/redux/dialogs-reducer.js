@@ -20,27 +20,38 @@ let initialState = {
 };
 
 const dialogsReducer = (state = initialState, action) => {
-  let stateCopy = { ...state };
+
   switch (action.type) {
+
     case SEND_MESSAGE:
+
+      if (state.newMessageText === '') {
+        alert('Поле не должно быть пустым');
+        return state;
+      };
+
       let newMessage = {
-        id: 6,
-        text: stateCopy.newMessageText,
+        id: (state.messages.at(-1).id + 1),
+        text: state.newMessageText,
         userRole: 'you',
         userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg",
       };
-      if (newMessage.text === '') {
-        alert('Поле не должно быть пустым');
-      } else {
-        stateCopy.messages.push(newMessage);
-        stateCopy.newMessageText = '';
+
+      return {
+        ...state,
+        messages: [...state.messages, newMessage],
+        newMessageText: ''
       };
-      return stateCopy;
+
     case UPDATE_NEW_MESSAGE_TEXT:
-      stateCopy.newMessageText = action.newText;
-      return stateCopy;
+
+      return {
+        ...state,
+        newMessageText: action.newText
+      };
+
     default:
-      return stateCopy;
+      return state;
   }
 };
 

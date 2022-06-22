@@ -1,5 +1,3 @@
-import React from "react";
-import StoreContext from "../../../StoreContext";
 import Friends from './Friends';
 import { connect } from 'react-redux';
 

@@ -3,7 +3,7 @@ import React from "react";
 import Friend from './Friend/Friend';
 
 const Friends = (props) => {
-  let friendsElements = props.sidebar.friends.map(f => <Friend name={f.name} ava={f.ava} />);
+  let friendsElements = props.sidebar.friends.map(f => <Friend name={f.name} ava={f.ava} key={f.id} />);
 
   return (
     <div>
