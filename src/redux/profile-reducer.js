@@ -10,25 +10,27 @@ let initialState = {
 };
 
 const profileReducer = (state = initialState, action) => {
+  let stateCopy = { ...state };
   switch (action.type) {
     case ADD_POST:
       let newPost = {
         id: 3,
-        text: state.newPostText,
+        text: stateCopy.newPostText,
         likesCount: 0
       };
       if (newPost.text === '') {
         alert('Поле не должно быть пустым');
       } else {
-        state.posts.push(newPost);
-        state.newPostText = '';
+        stateCopy.posts = [...state.posts];
+        stateCopy.posts.push(newPost);
+        stateCopy.newPostText = '';
       };
-      return state;
+      return stateCopy;
     case UPDATE_NEW_POST_TEXT:
-      state.newPostText = action.newText;
-      return state;
+      stateCopy.newPostText = action.newText;
+      return stateCopy;
     default:
-      return state;
+      return stateCopy;
   };
 };
 
