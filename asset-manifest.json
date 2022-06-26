@@ -1,13 +1,14 @@
 {
-  "main.css": "/react-app-1/static/css/main.d281a2b5.chunk.css",
-  "main.js": "/react-app-1/static/js/main.e4d2aee8.chunk.js",
-  "main.js.map": "/react-app-1/static/js/main.e4d2aee8.chunk.js.map",
-  "static/js/1.3e4114be.chunk.js": "/react-app-1/static/js/1.3e4114be.chunk.js",
-  "static/js/1.3e4114be.chunk.js.map": "/react-app-1/static/js/1.3e4114be.chunk.js.map",
-  "runtime~main.js": "/react-app-1/static/js/runtime~main.0ee10dba.js",
-  "runtime~main.js.map": "/react-app-1/static/js/runtime~main.0ee10dba.js.map",
-  "static/css/main.d281a2b5.chunk.css.map": "/react-app-1/static/css/main.d281a2b5.chunk.css.map",
-  "index.html": "/react-app-1/index.html",
-  "precache-manifest.1cd8145737123439dba2676f5439dd80.js": "/react-app-1/precache-manifest.1cd8145737123439dba2676f5439dd80.js",
-  "service-worker.js": "/react-app-1/service-worker.js"
+  "files": {
+    "main.css": "/react-app-1/static/css/main.36bc7e29.css",
+    "main.js": "/react-app-1/static/js/main.1db1dc91.js",
+    "static/media/userPhotoMock.png": "/react-app-1/static/media/userPhotoMock.d35d45080d98299fd8af.png",
+    "index.html": "/react-app-1/index.html",
+    "main.36bc7e29.css.map": "/react-app-1/static/css/main.36bc7e29.css.map",
+    "main.1db1dc91.js.map": "/react-app-1/static/js/main.1db1dc91.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.36bc7e29.css",
+    "static/js/main.1db1dc91.js"
+  ]
 }
