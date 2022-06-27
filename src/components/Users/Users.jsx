@@ -1,103 +1,30 @@
 import React from 'react';
 import styles from './Users.module.css';
-import * as axios from 'axios';
+import axios from 'axios';
+import Pagination from '../Pagination/Pagination';
 import userPhoto from './../../assets/images/userPhotoMock.png';
-
-const instance = axios.create({
-  baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-  withCredentials: true,
-  headers: {
-    "API-KEY": 'c6113c1b-8035-43ab-a483-d7a16d1f20d5'
-  }
-});
 
 class Users extends React.Component {
   componentDidMount() {
-    instance.get(`users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+    axios.get(`users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
       .then(response => {
         this.props.setUsers(response.data.items);
         this.props.setTotalUsersCount(response.data.totalCount);
       });
   };
 
-  onPageButtonClick(pageNumber) {
-    this.props.setCurrentPage(pageNumber);
-    instance.get(`users?page=${pageNumber}&count=${this.props.pageSize}`)
-      .then(response => {
-        this.props.setUsers(response.data.items);
-      });
-  }
-
-  onPageSizeChange(pageSize) {
-    this.props.setPageSize(pageSize);
-    instance.get(`users?page=${this.props.currentPage}&count=${pageSize}`)
-      .then(response => {
-        this.props.setUsers(response.data.items);
-      });
-  }
-
   render() {
-
-    let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
-
-    let CP = this.props.currentPage;
-
-    let pages = [];
-    pages.push(1);
-
-    switch (CP) {
-      case 1:
-        pages.push(CP + 1, CP + 2, '...');
-        break;
-      case 2:
-        pages.push(CP, CP + 1, CP + 2, '...');
-        break;
-      case 3:
-        pages.push(CP - 1, CP, CP + 1, CP + 2, '...');
-        break;
-      case 4:
-        pages.push(CP - 2, CP - 1, CP, CP + 1, CP + 2, '...');
-        break;
-      case pagesCount - 3:
-        pages.push('...', CP - 2, CP - 1, CP, CP + 1, CP + 2);
-        break;
-      case pagesCount - 2:
-        pages.push('...', CP - 2, CP - 1, CP, CP + 1);
-        break;
-      case pagesCount - 1:
-        pages.push('...', CP - 2, CP - 1, CP);
-        break;
-      case pagesCount:
-        pages.push('...', CP - 2, CP - 1);
-        break;
-      default:
-        pages.push('...', CP - 2, CP - 1, CP, CP + 1, CP + 2, '...');
-        break;
-    }
-    pages.push(pagesCount);
-
-    let createPageButton = (pageNumber) => {
-      return <span onClick={() => { this.onPageButtonClick(pageNumber) }} className={this.props.currentPage === pageNumber ? styles.selectedPage : ''}>{pageNumber}</span>
-    };
-
     return <div>
-
-      <div className={styles.pageButtons}>
-        {
-          pages.map(p => createPageButton(p))
-        }
-      </div>
-
-      <div className={styles.pageSizeSelection}>
-        View:
-        <span onClick={() => this.onPageSizeChange(5)}
-          className={this.props.pageSize === 5 && styles.selectedPageSize}>5</span>
-        <span onClick={() => this.onPageSizeChange(10)}
-          className={this.props.pageSize === 10 && styles.selectedPageSize}>10</span>
-        <span onClick={() => this.onPageSizeChange(50)}
-          className={this.props.pageSize === 50 && styles.selectedPageSize}>50</span>
-      </div>
-
+      <Pagination
+        AxiosURL={`users`}
+        pageSize={this.props.pageSize}
+        currentPage={this.props.currentPage}
+        totalItemsCount={this.props.totalUsersCount}
+        setPageSize={this.props.setPageSize}
+        setItems={this.props.setUsers}
+        setCurrentPage={this.props.setCurrentPage}
+        setTotalItemsCount={this.props.setTotalUsersCount}
+      />
       {
         this.props.users.map(u => <div key={u.id}>
           <span>
@@ -126,7 +53,7 @@ class Users extends React.Component {
         </div>
         )
       }
-    </div >
+    </div>
   }
 }
 
