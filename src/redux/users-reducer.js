@@ -12,6 +12,8 @@ const initialState = {
   pageSize: 5
 };
 
+
+
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case FOLLOW:
@@ -42,9 +44,7 @@ const usersReducer = (state = initialState, action) => {
     case SET_CURRENT_PAGE:
       return {
         ...state,
-        currentPage: action.pageNumber === '...'
-          ? +prompt('Enter page you want to go:', 1)
-          : action.pageNumber
+        currentPage: action.pageNumber
       };
     case SET_TOTAL_USERS_COUNT:
       return {
