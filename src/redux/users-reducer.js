@@ -12,8 +12,6 @@ const initialState = {
   pageSize: 5
 };
 
-
-
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case FOLLOW:
