@@ -1,57 +1,125 @@
 import React from 'react';
 import styles from './Users.module.css';
+import * as axios from 'axios';
+import userPhoto from './../../assets/images/userPhotoMock.png';
 
-const Users = (props) => {
-  debugger;
-  if (props.users.length === 0) {
-    props.setUsers(
-      [
-        {
-          id: 1, userPhoto: 'https://toppng.com/uploads/preview/hacker-avatar-11556286068ziooyvonc2.png',
-          fullName: 'Kolya', followed: true, status: 'Low Kick!', location: { countryName: 'Russia', cityName: 'Moscow' }
-        },
-        {
-          id: 2, userPhoto: 'https://toppng.com/uploads/preview/hacker-avatar-11556286068ziooyvonc2.png',
-          fullName: 'Petr', followed: false, status: 'High Punch!', location: { countryName: 'Belarus', cityName: 'Minsk' }
-        },
-        {
-          id: 3, userPhoto: 'https://toppng.com/uploads/preview/hacker-avatar-11556286068ziooyvonc2.png',
-          fullName: 'Zhenya', followed: false, status: 'Combo!', location: { countryName: 'Ukraine', cityName: 'Kiev' }
-        },
-        {
-          id: 4, userPhoto: 'https://toppng.com/uploads/preview/hacker-avatar-11556286068ziooyvonc2.png',
-          fullName: 'Sveta', followed: true, status: 'Fatality!!!', location: { countryName: 'Kazakhstan', cityName: 'Nur-Sultan' }
-        }
-      ]
-    );
+class Users extends React.Component {
+  componentDidMount() {
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+      .then(response => {
+        this.props.setUsers(response.data.items);
+        this.props.setTotalUsersCount(response.data.totalCount);
+      });
+  };
+
+  onPageButtonClick(pageNumber) {
+    this.props.setCurrentPage(pageNumber);
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+      .then(response => {
+        this.props.setUsers(response.data.items);
+      });
   }
 
-  return <div>
-    {
-      props.users.map(u => <div key={u.id}>
-        <span>
-          <div>
-            <img src={u.userPhoto} className={styles.photo} alt='user_photo' />
-          </div>
-          <div>
-            {u.followed
-              ? <button onClick={() => { props.unfollow(u.id) }}>Unfollow</button>
-              : <button onClick={() => { props.follow(u.id) }}>Follow</button>}
-          </div>
-        </span>
-        <span>
-          <span>
-            <div>{u.fullName}</div>
-            <div>{u.status}</div>
-          </span>
-          <span>
-            <div>{u.location.country}</div>
-            <div>{u.location.city}</div>
-          </span>
-        </span>
-      </div>
-      )
+  onPageSizeChange(pageSize) {
+    this.props.setPageSize(pageSize);
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${pageSize}`)
+      .then(response => {
+        this.props.setUsers(response.data.items);
+      });
+  }
+
+  render() {
+
+    let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize);
+
+    let CP = this.props.currentPage;
+
+    let pages = [];
+    pages.push(1);
+
+    switch (CP) {
+      case 1:
+        pages.push(CP + 1, CP + 2, '...');
+        break;
+      case 2:
+        pages.push(CP, CP + 1, CP + 2, '...');
+        break;
+      case 3:
+        pages.push(CP - 1, CP, CP + 1, CP + 2, '...');
+        break;
+      case 4:
+        pages.push(CP - 2, CP - 1, CP, CP + 1, CP + 2, '...');
+        break;
+      case pagesCount - 3:
+        pages.push('...', CP - 2, CP - 1, CP, CP + 1, CP + 2);
+        break;
+      case pagesCount - 2:
+        pages.push('...', CP - 2, CP - 1, CP, CP + 1);
+        break;
+      case pagesCount - 1:
+        pages.push('...', CP - 2, CP - 1, CP);
+        break;
+      case pagesCount:
+        pages.push('...', CP - 2, CP - 1);
+        break;
+      default:
+        pages.push('...', CP - 2, CP - 1, CP, CP + 1, CP + 2, '...');
+        break;
     }
-  </div>
+    pages.push(pagesCount);
+
+    let createPageButton = (pageNumber) => {
+      return <span onClick={() => { this.onPageButtonClick(pageNumber) }} className={this.props.currentPage === pageNumber ? styles.selectedPage : ''}>{pageNumber}</span>
+    };
+
+    return <div>
+
+      <div className={styles.pageButtons}>
+        {
+          pages.map(p => createPageButton(p))
+        }
+      </div>
+
+      <div className={styles.pageSizeSelection}>
+        View:
+        <span onClick={() => this.onPageSizeChange(5)}
+          className={this.props.pageSize === 5 && styles.selectedPageSize}>5</span>
+        <span onClick={() => this.onPageSizeChange(10)}
+          className={this.props.pageSize === 10 && styles.selectedPageSize}>10</span>
+        <span onClick={() => this.onPageSizeChange(50)}
+          className={this.props.pageSize === 50 && styles.selectedPageSize}>50</span>
+      </div>
+
+      {
+        this.props.users.map(u => <div key={u.id}>
+          <span>
+            <div>
+              <img src={u.photos.small != null ? u.photos.small : userPhoto}
+                className={styles.photo} alt='img' />
+            </div>
+            <div>
+              {u.followed
+                ? <button onClick={() => { this.props.unfollow(u.id) }}>Unfollow</button>
+                : <button onClick={() => { this.props.follow(u.id) }}>Follow</button>}
+            </div>
+          </span>
+          <span>
+            <div>
+              <span>
+                <div>{u.name}</div>
+                <div>{u.status}</div>
+              </span>
+              <span>
+                <div>u.location.country</div>
+                <div>u.location.city</div>
+              </span>
+            </div>
+          </span>
+        </div>
+        )
+      }
+    </div >
+  }
 }
+
 export default Users;
