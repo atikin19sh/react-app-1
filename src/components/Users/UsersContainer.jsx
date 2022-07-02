@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import Users from './Users';
-import { followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setPageSizeAC, toggleIsFetchingAC } from '../../redux/users-reducer';
+import { follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, setPageSize, toggleIsFetching } from '../../redux/users-reducer';
 import Preloader from '../common/Preloader/Preloader';
 
 class UsersContainer extends React.Component {
@@ -64,6 +64,7 @@ const mapStateToProps = (state) => {
   };
 };
 
+/*
 const mapDispatchToProps = (dispatch) => {
   return {
     follow: (userId) => {
@@ -89,5 +90,16 @@ const mapDispatchToProps = (dispatch) => {
     }
   };
 };
+*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(
+  mapStateToProps,
+  {
+    follow,
+    unfollow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    setPageSize,
+    toggleIsFetching
+  })(UsersContainer);
