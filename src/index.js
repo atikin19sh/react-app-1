@@ -23,3 +23,5 @@ rerenderEntireTree();
 store.subscribe(() => {
   rerenderEntireTree();
 });
+
+window.store = store;

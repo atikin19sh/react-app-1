@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './Users.module.css';
 import userPhoto from './../../assets/images/userPhotoMock.png';
 
@@ -49,9 +50,7 @@ const Users = (props) => {
   return <div>
 
     <div className={styles.pageButtons}>
-      {
-        pages.map(p => createPageButton(p))
-      }
+      {pages.map(p => createPageButton(p))}
     </div>
 
     <div className={styles.pageSizeSelection}>
@@ -68,8 +67,11 @@ const Users = (props) => {
       props.users.map(u => <div key={u.id}>
         <span>
           <div>
-            <img src={u.photos.small != null ? u.photos.small : userPhoto}
-              className={styles.photo} alt='img' />
+            <NavLink to={`/profile/${u.id}`}>
+              <img src={u.photos.small != null ? u.photos.small : userPhoto}
+                className={styles.photo}
+                alt='img' />
+            </NavLink>
           </div>
           <div>
             {u.followed

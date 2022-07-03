@@ -1,3 +1,18 @@
-.userInfo {
+.userInfoContainer {
   padding: 10px;
+}
+
+.avatarImage {
+  width: 150px;
+  height: 150px;
+}
+
+.userInfoBlock {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: rgb(128, 164, 254);
+}
+
+.userInfoBlock .userName {
+  font-weight: bold;
 }
