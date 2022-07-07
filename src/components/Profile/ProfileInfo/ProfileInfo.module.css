@@ -2,6 +2,10 @@
   padding: 10px;
 }
 
+.bannerImage {
+  height: 200px;
+}
+
 .avatarImage {
   width: 150px;
   height: 150px;

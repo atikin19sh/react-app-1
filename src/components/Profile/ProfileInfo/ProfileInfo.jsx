@@ -9,7 +9,8 @@ const ProfileInfo = (props) => {
   return ((!props.profile) ? <Preloader /> :
     <div>
       <img
-        src="https://sppumoodle.unipune.ac.in/pluginfile.php/74872/course/overviewfiles/Front%20Page%202.jpg"
+        className={styles.bannerImage}
+        src="https://i.pinimg.com/originals/d0/83/10/d083104dd0c567eb047ed93e92fa88bd.jpg"
         alt="User Profile Banner"
       />
       <div className={styles.userInfoContainer}>

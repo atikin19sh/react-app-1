@@ -44,7 +44,8 @@ const Users = (props) => {
   pages.push(pagesCount);
 
   let createPageButton = (pageNumber) => {
-    return <span onClick={() => { props.onPageButtonClick(pageNumber) }} className={props.currentPage === pageNumber ? styles.selectedPage : ''}>{pageNumber}</span>
+    return <span onClick={() => { props.onPageButtonClick(pageNumber) }}
+      className={props.currentPage === pageNumber ? styles.selectedPage : ''}>{pageNumber}</span>
   };
 
   return <div>
@@ -75,8 +76,12 @@ const Users = (props) => {
           </div>
           <div>
             {u.followed
-              ? <button onClick={() => { props.unfollow(u.id) }}>Unfollow</button>
-              : <button onClick={() => { props.follow(u.id) }}>Follow</button>}
+              ? <button
+                disabled={props.followingInProgress.some(id => id == u.id)}
+                onClick={() => { props.onUnfollowClick(u.id) }}>Unfollow</button>
+              : <button
+                disabled={props.followingInProgress.some(id => id == u.id)}
+                onClick={() => { props.onFollowClick(u.id) }}>Follow</button>}
           </div>
         </span>
         <span>
