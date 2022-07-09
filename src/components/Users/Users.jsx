@@ -44,8 +44,11 @@ const Users = (props) => {
   pages.push(pagesCount);
 
   let createPageButton = (pageNumber) => {
-    return <span onClick={() => { props.onPageButtonClick(pageNumber) }}
-      className={props.currentPage === pageNumber ? styles.selectedPage : ''}>{pageNumber}</span>
+    return <span
+      onClick={() => { props.onPageButtonClick(pageNumber) }}
+      className={props.currentPage === pageNumber ? styles.selectedPage : ''}
+      key={pageNumber !== '...' ? pageNumber : Math.random() * (-1)}
+    >{pageNumber}</span>
   };
 
   return <div>
@@ -57,11 +60,11 @@ const Users = (props) => {
     <div className={styles.pageSizeSelection}>
       View:
       <span onClick={() => props.onPageSizeChange(5)}
-        className={props.pageSize === 5 && styles.selectedPageSize}>5</span>
+        className={props.pageSize === 5 ? styles.selectedPageSize : ''}>5</span>
       <span onClick={() => props.onPageSizeChange(10)}
-        className={props.pageSize === 10 && styles.selectedPageSize}>10</span>
+        className={props.pageSize === 10 ? styles.selectedPageSize : ''}>10</span>
       <span onClick={() => props.onPageSizeChange(50)}
-        className={props.pageSize === 50 && styles.selectedPageSize}>50</span>
+        className={props.pageSize === 50 ? styles.selectedPageSize : ''}>50</span>
     </div>
 
     {
@@ -77,11 +80,11 @@ const Users = (props) => {
           <div>
             {u.followed
               ? <button
-                disabled={props.followingInProgress.some(id => id == u.id)}
-                onClick={() => { props.onUnfollowClick(u.id) }}>Unfollow</button>
+                disabled={props.followingInProgress.some(id => id === u.id)}
+                onClick={() => { props.unfollow(u.id) }}>Unfollow</button>
               : <button
-                disabled={props.followingInProgress.some(id => id == u.id)}
-                onClick={() => { props.onFollowClick(u.id) }}>Follow</button>}
+                disabled={props.followingInProgress.some(id => id === u.id)}
+                onClick={() => { props.follow(u.id) }}>Follow</button>}
           </div>
         </span>
         <span>

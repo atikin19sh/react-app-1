@@ -1,3 +1,5 @@
+import { usersAPI } from '../components/api/api';
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -68,20 +70,57 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         followingInProgress: action.isFetching
           ? [...state.followingInProgress, action.userId]
-          : state.followingInProgress.filter(id => id != action.userId)
+          : state.followingInProgress.filter(id => id !== action.userId)
       }
     default:
       return state;
   }
 }
 // Action Creators
-export const follow = (userId) => ({ type: FOLLOW, userId });
-export const unfollow = (userId) => ({ type: UNFOLLOW, userId });
+const followSuccess = (userId) => ({ type: FOLLOW, userId });
+const unfollowSuccess = (userId) => ({ type: UNFOLLOW, userId });
 export const setUsers = (users) => ({ type: SET_USERS, users });
 export const setCurrentPage = (pageNumber) => ({ type: SET_CURRENT_PAGE, pageNumber });
 export const setTotalUsersCount = (count) => ({ type: SET_TOTAL_USERS_COUNT, count });
 export const setPageSize = (pageSize) => ({ type: SET_PAGE_SIZE, pageSize });
 export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 export const toggleFollowingProgress = (userId, isFetching) => ({ type: TOGGLE_FOLLOWING_PROGRESS, userId, isFetching });
+// Thunk Creators
+export const getUsers = (currentPage, pageSize) => {
+  return dispatch => {
+    dispatch(toggleIsFetching(true));
+    usersAPI.getUsers(currentPage, pageSize)
+      .then(data => {
+        dispatch(toggleIsFetching(false));
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount));
+      });
+  }
+};
+export const follow = (userId) => {
+  return dispatch => {
+    dispatch(toggleFollowingProgress(userId, true));
+    usersAPI.followUser(userId)
+      .then(data => {
+        if (data.resultCode === 0) {
+          dispatch(followSuccess(userId))
+        };
+        dispatch(toggleFollowingProgress(userId, false));
+      });
+  }
+};
+export const unfollow = (userId) => {
+  return dispatch => {
+    dispatch(toggleFollowingProgress(userId, true));
+    usersAPI.unfollowUser(userId)
+      .then(data => {
+        if (data.resultCode === 0) {
+          dispatch(unfollowSuccess(userId))
+        };
+        dispatch(toggleFollowingProgress(userId, false));
+      });
+  }
+};
+
 
 export default usersReducer;

@@ -2,62 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
-import { follow, 
-  unfollow, 
-  setUsers, 
-  setCurrentPage, 
-  setTotalUsersCount, 
-  setPageSize, 
-  toggleIsFetching, 
-  toggleFollowingProgress } from '../../redux/users-reducer';
-import { usersAPI } from '../api/api';
+import {
+  follow,
+  unfollow,
+  setCurrentPage,
+  setPageSize,
+  getUsers
+} from '../../redux/users-reducer';
 
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.toggleIsFetching(true);
-    usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(data.items);
-        this.props.setTotalUsersCount(data.totalCount);
-      });
+    this.props.getUsers(this.props.currentPage, this.props.pageSize);
   };
 
   onPageButtonClick = (pageNumber) => {
-    this.props.toggleIsFetching(true);
     this.props.setCurrentPage(pageNumber);
-    usersAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(data.items);
-      });
+    this.props.getUsers(pageNumber, this.props.pageSize);
   };
 
   onPageSizeChange = (pageSize) => {
-    this.props.toggleIsFetching(true);
     this.props.setPageSize(pageSize);
-    usersAPI.getUsers(this.props.currentPage, pageSize).then(data => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(data.items);
-      });
-  };
-
-  onFollowClick = (userId) => {
-    this.props.toggleFollowingProgress(userId, true);
-    usersAPI.followUser(userId).then(data => {
-      if (data.resultCode === 0) {
-        this.props.follow(userId)
-      };
-      this.props.toggleFollowingProgress(userId, false);
-    });
-  };
-
-  onUnfollowClick = (userId) => {
-    this.props.toggleFollowingProgress(userId, true);
-    usersAPI.unfollowUser(userId).then(data => {
-      if (data.resultCode === 0) {
-        this.props.unfollow(userId)
-      };
-      this.props.toggleFollowingProgress(userId, false);
-    });
+    this.props.getUsers(this.props.currentPage, pageSize);
   };
 
   render() {
@@ -66,8 +31,8 @@ class UsersContainer extends React.Component {
       <Users
         onPageButtonClick={this.onPageButtonClick}
         onPageSizeChange={this.onPageSizeChange}
-        onFollowClick={this.onFollowClick}
-        onUnfollowClick={this.onUnfollowClick}
+        follow={this.props.follow}
+        unfollow={this.props.unfollow}
         users={this.props.users}
         currentPage={this.props.currentPage}
         totalUsersCount={this.props.totalUsersCount}
@@ -75,7 +40,6 @@ class UsersContainer extends React.Component {
         followingInProgress={this.props.followingInProgress}
       />
     </>
-
   }
 }
 
@@ -95,10 +59,7 @@ export default connect(
   {
     follow,
     unfollow,
-    setUsers,
     setCurrentPage,
-    setTotalUsersCount,
     setPageSize,
-    toggleIsFetching,
-    toggleFollowingProgress
+    getUsers
   })(UsersContainer);
