@@ -40,7 +40,7 @@ const Dialogs = (props) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default Dialogs;
