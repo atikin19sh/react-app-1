@@ -1,6 +1,7 @@
 import React from "react";
 import Preloader from "../../common/Preloader/Preloader";
 import styles from './ProfileInfo.module.css';
+import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 const ProfileInfo = (props) => {
 
@@ -23,6 +24,7 @@ const ProfileInfo = (props) => {
         </div>
         <div className={`${styles.userInfoBlock} ${styles.userInfoAbout}`}>
           <div className={styles.userName}>{props.profile.fullName}</div>
+          <ProfileStatus status={"Hello i'm Junior React Developer"} />
           <div>About Me: {props.profile.aboutMe}</div>
         </div>
         <div className={`${styles.userInfoBlock} ${styles.userInfoContacts}`}>
