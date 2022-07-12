@@ -24,7 +24,7 @@ const ProfileInfo = (props) => {
         </div>
         <div className={`${styles.userInfoBlock} ${styles.userInfoAbout}`}>
           <div className={styles.userName}>{props.profile.fullName}</div>
-          <ProfileStatus status={"Hello i'm Junior React Developer"} />
+          <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
           <div>About Me: {props.profile.aboutMe}</div>
         </div>
         <div className={`${styles.userInfoBlock} ${styles.userInfoContacts}`}>
