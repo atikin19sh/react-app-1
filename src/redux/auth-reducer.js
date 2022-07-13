@@ -22,7 +22,7 @@ const authReducer = (state = initialState, action) => {
   }
 }
 
-export const setAuthUserData = (id, login, email) => ({ type: SET_AUTH_USER_DATA, data: { id, login, email } });
+const setAuthUserData = (id, login, email) => ({ type: SET_AUTH_USER_DATA, data: { id, login, email } });
 
 export const getAuthUserData = () => {
   return dispatch => {
