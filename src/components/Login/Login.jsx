@@ -1,10 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
+import { loginWithData } from "../../redux/auth-reducer";
 
 const LoginForm = (props) => {
   return <form onSubmit={props.handleSubmit}>
     <div>
-      <Field component='input' name='login' type='text' placeholder='Login' />
+      <Field component='input' name='email' type='email' placeholder='E-Mail' />
     </div>
     <div>
       <Field component='input' name='password' type='text' placeholder='Password' />
@@ -23,13 +25,20 @@ const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
 
 const LoginPage = (props) => {
   const onSubmit = (formData) => {
-    console.log(formData)
+    let { email, password, rememberMe, captcha } = formData;
+    props.loginWithData(email, password, rememberMe, captcha);
   }
 
   return <div>
     <h1>Login</h1>
-    <LoginReduxForm onSubmit={onSubmit}/>
+    <LoginReduxForm onSubmit={onSubmit} />
   </div>
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, { loginWithData })(LoginPage);
