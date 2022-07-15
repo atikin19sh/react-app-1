@@ -1,5 +1,4 @@
 const SEND_MESSAGE = 'SEND_MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT';
 
 let initialState = {
   dialogs: [
@@ -15,8 +14,7 @@ let initialState = {
     { id: 3, userRole: 'you', text: 'I am fine!', userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg" },
     { id: 4, userRole: 'you', text: 'I am learning React JS now!', userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg" },
     { id: 5, userRole: 'talker', text: 'Wow! Good luck!', userAva: 'https://miro.medium.com/fit/c/1360/1360/2*S4BvCsc_o_KwFCx-gmVTlg.png' },
-  ],
-  newMessageText: 'Thanks!',
+  ]
 };
 
 const dialogsReducer = (state = initialState, action) => {
@@ -25,29 +23,16 @@ const dialogsReducer = (state = initialState, action) => {
 
     case SEND_MESSAGE:
 
-      if (state.newMessageText === '') {
-        alert('Поле не должно быть пустым');
-        return state;
-      };
-
       let newMessage = {
         id: (state.messages.at(-1).id + 1),
-        text: state.newMessageText,
+        text: action.newMessageText,
         userRole: 'you',
         userAva: "https://miro.medium.com/max/2400/1*fJX2JDYTLZf2Z5EFYUP6eA.jpeg",
       };
 
       return {
         ...state,
-        messages: [...state.messages, newMessage],
-        newMessageText: ''
-      };
-
-    case UPDATE_NEW_MESSAGE_TEXT:
-
-      return {
-        ...state,
-        newMessageText: action.newText
+        messages: [...state.messages, newMessage]
       };
 
     default:
@@ -55,12 +40,8 @@ const dialogsReducer = (state = initialState, action) => {
   }
 };
 
-export const sendMessageActionCreator = () => {
-  return { type: SEND_MESSAGE };
-};
-
-export const updateNewMessageTextActionCreator = (text) => {
-  return { type: UPDATE_NEW_MESSAGE_TEXT, newText: text };
+export const sendMessage = (newMessageText) => {
+  return { type: SEND_MESSAGE, newMessageText };
 };
 
 export default dialogsReducer;

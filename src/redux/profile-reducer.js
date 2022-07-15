@@ -1,7 +1,6 @@
 import { profileAPI } from '../components/api/api';
 
 const ADD_POST = 'ADD_POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -21,28 +20,15 @@ const profileReducer = (state = initialState, action) => {
 
     case ADD_POST:
 
-      if (state.newPostText === '') {
-        alert('Поле не должно быть пустым');
-        return state;
-      };
-
       let newPost = {
         id: (state.posts.at(0).id + 1),
-        text: state.newPostText,
+        text: action.newPostText,
         likesCount: 0
       };
 
       return {
         ...state,
-        posts: [newPost, ...state.posts],
-        newPostText: ''
-      };
-
-    case UPDATE_NEW_POST_TEXT:
-
-      return {
-        ...state,
-        newPostText: action.text
+        posts: [newPost, ...state.posts]
       };
 
     case SET_USER_PROFILE:
@@ -62,8 +48,7 @@ const profileReducer = (state = initialState, action) => {
   }
 };
 
-export const addPost = () => ({ type: ADD_POST });
-export const updateNewPostText = (text) => ({ type: UPDATE_NEW_POST_TEXT, text });
+export const addPost = (newPostText) => ({ type: ADD_POST, newPostText });
 const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile });
 const setStatus = (status) => ({ type: SET_STATUS, status });
 
