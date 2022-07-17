@@ -1,15 +1,11 @@
 import { authAPI } from "../components/api/api";
 
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
-const SET_LOGIN_DATA = 'SET_LOGIN_DATA';
 
 const initialState = {
   id: null,
   login: null,
   email: null,
-  password: null,
-  rememberMe: null,
-  captcha: null,
   isAuth: false
 };
 
@@ -18,26 +14,15 @@ const authReducer = (state = initialState, action) => {
     case SET_AUTH_USER_DATA:
       return {
         ...state,
-        ...action.data,
-        isAuth: true
-      }
-    case SET_LOGIN_DATA:
-      return {
-        ...state,
-        ...action.data
+        ...action.payload
       }
     default:
       return state;
   }
 }
 
-const setAuthUserData = (id, login, email) => ({ type: SET_AUTH_USER_DATA, data: { id, login, email } });
-const setLoginData = (email, password, rememberMe, captcha) => (
-  {
-    type: SET_LOGIN_DATA,
-    data: { email, password, rememberMe, captcha }
-  }
-);
+const setAuthUserData = (id, login, email, isAuth) => ({ type: SET_AUTH_USER_DATA, payload: { id, login, email, isAuth } });
+
 
 export const getAuthUserData = () => {
   return dispatch => {
@@ -45,18 +30,18 @@ export const getAuthUserData = () => {
       .then(data => {
         if (data.resultCode === 0) {
           let { id, login, email } = data.data;
-          dispatch(setAuthUserData(id, login, email));
+          dispatch(setAuthUserData(id, login, email, true));
         }
       });
   }
 }
 
-export const loginWithData = (email, password, rememberMe, captcha) => {
+export const loginWithData = (email, password, rememberMe) => {
   return dispatch => {
-    authAPI.login(email, password, rememberMe, captcha)
+    authAPI.login(email, password, rememberMe)
       .then(data => {
         if (data.resultCode === 0) {
-          dispatch(setLoginData(email, password, rememberMe, captcha));
+          dispatch(getAuthUserData());
           alert('You are logged in!')
         } else alert('Login Error!')
       })
@@ -68,6 +53,7 @@ export const logout = () => {
     authAPI.logout()
       .then(data => {
         if (data.resultCode === 0) {
+          dispatch(setAuthUserData(null, null, null, false));
           alert('You was logged out.')
         }
       })

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { loginWithData } from "../../redux/auth-reducer";
+import { Navigate } from 'react-router-dom';
 
 const LoginForm = (props) => {
   return <form onSubmit={props.handleSubmit}>
@@ -9,7 +10,7 @@ const LoginForm = (props) => {
       <Field component='input' name='email' type='email' placeholder='E-Mail' />
     </div>
     <div>
-      <Field component='input' name='password' type='text' placeholder='Password' />
+      <Field component='input' name='password' type='password' placeholder='Password' />
     </div>
     <div>
       <Field component='input' name='rememberMe' type='checkbox' />remember me
@@ -21,12 +22,17 @@ const LoginForm = (props) => {
     </div>
   </form>
 }
+
 const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
 
 const LoginPage = (props) => {
   const onSubmit = (formData) => {
-    let { email, password, rememberMe, captcha } = formData;
-    props.loginWithData(email, password, rememberMe, captcha);
+    let { email, password, rememberMe } = formData;
+    props.loginWithData(email, password, rememberMe);
+  }
+
+  if (props.isAuth) {
+      return <Navigate to={'/profile'} replace={true}/>
   }
 
   return <div>
@@ -37,7 +43,7 @@ const LoginPage = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    isAuth: state.auth.isAuth
   }
 }
 
