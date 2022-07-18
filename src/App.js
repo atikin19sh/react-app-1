@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
@@ -10,10 +10,22 @@ import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import LoginPage from './components/Login/Login';
+import { connect } from 'react-redux';
+import { initialize } from './redux/app-reducer';
+import Preloader from './components/common/Preloader/Preloader';
+import { compose } from 'redux';
+import withRouter from './components/HOC/withRouter';
 
-const App = () => {
-  return (
-    <BrowserRouter>
+class App extends React.Component {
+
+  componentDidMount() {
+    this.props.initialize();
+  }
+
+  render() {
+    if (!this.props.initialized) return <Preloader />;
+
+    return (
       <div className='app-wrapper'>
         <HeaderContainer />
         <Navbar />
@@ -30,8 +42,15 @@ const App = () => {
           </Routes>
         </div>
       </div>
-    </BrowserRouter>
-  );
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized
+})
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, { initialize })
+)(App);

@@ -27,7 +27,7 @@ const setAuthUserData = (id, login, email, isAuth) => ({ type: SET_AUTH_USER_DAT
 
 export const getAuthUserData = () => {
   return dispatch => {
-    authAPI.me()
+    return authAPI.me()
       .then(data => {
         if (data.resultCode === 0) {
           let { id, login, email } = data.data;
@@ -45,7 +45,7 @@ export const loginWithData = (email, password, rememberMe) => {
           dispatch(getAuthUserData());
         } else {
           let message = data.messages.length > 0 ? data.messages[0] : 'Unknown error';
-          dispatch(stopSubmit('login', {_error: message}))
+          dispatch(stopSubmit('login', { _error: message }))
         }
       })
   }
@@ -56,8 +56,7 @@ export const logout = () => {
     authAPI.logout()
       .then(data => {
         if (data.resultCode === 0) {
-          dispatch(setAuthUserData(null, null, null, false));
-          alert('You was logged out.')
+          dispatch(setAuthUserData(null, null, null, false))
         }
       })
   }
