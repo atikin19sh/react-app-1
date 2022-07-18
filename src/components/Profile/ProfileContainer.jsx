@@ -9,10 +9,7 @@ import withAuthRedirect from "../HOC/withAuthRedirect";
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
-    let userId = this.props.router.params.userId;
-    if (!userId) {
-      userId = 24626;
-    }
+    let userId = this.props.router.params.userId || this.props.myID;
     this.props.getUserProfile(userId);
     this.props.getStatus(userId);
   };
@@ -30,7 +27,8 @@ class ProfileContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     profile: state.profilePage.profile,
-    status: state.profilePage.status
+    status: state.profilePage.status,
+    myID: state.auth.id
   };
 };
 

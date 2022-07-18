@@ -5,6 +5,7 @@ import { loginWithData } from "../../redux/auth-reducer";
 import { Navigate } from 'react-router-dom';
 import { required } from "../../utils/validators/validators";
 import { Input } from "../common/FormsControls/FormsControls";
+import styles from './Login.module.css';
 
 const LoginForm = (props) => {
   return <form onSubmit={props.handleSubmit}>
@@ -33,6 +34,9 @@ const LoginForm = (props) => {
         type='checkbox'
       />
       remember me
+    </div>
+    <div className={props.error ? styles.error : ''}>
+      {props.error && <span>{props.error}</span>}
     </div>
     <div>
       <button type='submit'>
