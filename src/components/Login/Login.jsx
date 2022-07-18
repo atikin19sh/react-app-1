@@ -3,17 +3,36 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { loginWithData } from "../../redux/auth-reducer";
 import { Navigate } from 'react-router-dom';
+import { required } from "../../utils/validators/validators";
+import { Input } from "../common/FormsControls/FormsControls";
 
 const LoginForm = (props) => {
   return <form onSubmit={props.handleSubmit}>
     <div>
-      <Field component='input' name='email' type='email' placeholder='E-Mail' />
+      <Field
+        component={Input}
+        name='email'
+        type='email'
+        placeholder='E-Mail'
+        validate={[required]}
+      />
     </div>
     <div>
-      <Field component='input' name='password' type='password' placeholder='Password' />
+      <Field
+        component={Input}
+        name='password'
+        type='password'
+        placeholder='Password'        
+        validate={[required]}
+      />
     </div>
     <div>
-      <Field component='input' name='rememberMe' type='checkbox' />remember me
+      <Field
+        component='input'
+        name='rememberMe'
+        type='checkbox'
+      />
+      remember me
     </div>
     <div>
       <button type='submit'>
@@ -32,7 +51,7 @@ const LoginPage = (props) => {
   }
 
   if (props.isAuth) {
-      return <Navigate to={'/profile'} replace={true}/>
+    return <Navigate to={'/profile'} replace={true} />
   }
 
   return <div>
