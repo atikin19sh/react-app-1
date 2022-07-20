@@ -86,7 +86,7 @@ export const setPageSize = (pageSize) => ({ type: SET_PAGE_SIZE, pageSize });
 export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isFetching });
 export const toggleFollowingProgress = (userId, isFetching) => ({ type: TOGGLE_FOLLOWING_PROGRESS, userId, isFetching });
 // Thunk Creators
-export const getUsers = (currentPage, pageSize) => {
+export const requestUsers = (currentPage, pageSize) => {
   return dispatch => {
     dispatch(toggleIsFetching(true));
     usersAPI.getUsers(currentPage, pageSize)

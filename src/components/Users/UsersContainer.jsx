@@ -8,9 +8,10 @@ import {
   unfollow,
   setCurrentPage,
   setPageSize,
-  getUsers
+  requestUsers
 } from '../../redux/users-reducer';
 import withAuthRedirect from "../HOC/withAuthRedirect";
+import { getUsers } from '../../redux/users-selector';
 
 class UsersContainer extends React.Component {
   componentDidMount() {
@@ -47,7 +48,7 @@ class UsersContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.usersPage.users,
+    users: getUsers(state),
     currentPage: state.usersPage.currentPage,
     totalUsersCount: state.usersPage.totalUsersCount,
     pageSize: state.usersPage.pageSize,
@@ -65,6 +66,6 @@ export default compose(
       unfollow,
       setCurrentPage,
       setPageSize,
-      getUsers
+      getUsers: requestUsers
     })
 )(UsersContainer);
